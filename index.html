@@ -55,6 +55,11 @@
   .imgToken:active{ transform:scale(.97); }
   .imgToken img{ width:90%; height:90%; object-fit:contain; }
 
+  .imgToken.selected{
+    border-color:var(--pink-dark);
+    box-shadow:0 0 0 4px rgba(216,140,184,.4);
+  }
+
   .btn{
     border:var(--border) solid var(--ink); background:var(--white); color:var(--ink);
     padding:.45rem .85rem; border-radius:14px; cursor:pointer; font-size:1.05rem;
@@ -64,7 +69,7 @@
   .flash-good{ background:var(--ok) !important; border-color:var(--ok) !important; }
   .flash-bad{ background:var(--bad) !important; border-color:var(--bad) !important; }
 
-  /* Game 3 – smaller big square */
+  /* Game 3 – big square */
   .bigSquare{
     width:min(70vmin,90%); aspect-ratio:1/1; background:#fff;
     border:12px solid var(--pink-mid); border-radius:40px; display:grid; place-items:center;
@@ -88,7 +93,10 @@
     display:grid; gap:1.4vmin;
     grid-template-columns: repeat(auto-fill, minmax(18vmin, 1fr));
   }
-  .card{ aspect-ratio:3/4; perspective:1000px; cursor:pointer; }
+  .card{
+    aspect-ratio:4/3;        /* horizontal */
+    perspective:1000px; cursor:pointer;
+  }
   .inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .25s ease; }
   .flipped .inner{ transform:rotateY(180deg); }
   .face{ position:absolute; inset:0; border-radius:18px; border:6px solid var(--pink-mid);
@@ -98,14 +106,57 @@
     background:#fff url('https://i.postimg.cc/ZKkYXy7g/cardback-p1-game.png') center/70% no-repeat;
   }
   .back{ transform:rotateY(180deg); }
-  .sndWord{ font-size:clamp(1.6rem,4.6vmin,2.4rem); padding:.3rem .6rem; }
+  .sndWord{
+    font-size:clamp(1.2rem,3.4vmin,1.8rem);  /* smaller so it fits */
+    padding:.2rem .6rem;
+    text-align:center;
+  }
 
-  /* Game 4 – sentence */
+  /* Game 4 – Dat ass … */
   .sentence{ display:flex; align-items:center; gap:min(2.2vmin,16px); flex-wrap:wrap; justify-content:center; font-size:clamp(2rem,4.8vw,3.2rem); }
   .inlineSq{
     display:inline-grid; place-items:center; width:min(36vmin,420px); aspect-ratio:1/1;
     border:10px solid var(--pink-mid); border-radius:28px; background:#fff; cursor:pointer;
     box-shadow:0 8px 24px rgba(0,0,0,.08); transition:transform .12s ease;
+  }
+
+  /* Game 5 – Sorting */
+  .sortLayout{
+    width:95vw; max-width:1200px;
+    display:grid; gap:1.4vmin;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+  }
+  @media (max-width:820px){
+    .sortLayout{ grid-template-columns:1fr; }
+  }
+  .dropZone{
+    background:#fff;
+    border:8px solid var(--pink-mid);
+    border-radius:26px;
+    padding:1rem .6rem 1rem;
+    display:flex;
+    flex-direction:column;
+    gap:.7rem;
+    align-items:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+  }
+  .dropTitle{
+    font-size:clamp(1.4rem,3.6vmin,2rem);
+    text-align:center;
+  }
+  .dropInner{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    justify-content:center;
+  }
+  .sortItemsRow{
+    margin-top:1.4rem;
+    width:95vw; max-width:1200px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:.6rem;
   }
 </style>
 </head>
@@ -142,7 +193,7 @@
   <div><button class="btn" id="sayPlay">Toun spillen</button></div>
 </section>
 
-<!-- Spill 4: Dat ass ... -->
+<!-- Spill 4: Dat ass … -->
 <section class="wrap hidden" id="g4">
   <h1>Dat ass …</h1>
   <div class="sentence">
@@ -152,6 +203,27 @@
     </div>
   </div>
   <p>Klick op d'Bild: Lauschter a schwätz mat.</p>
+</section>
+
+<!-- Spill 5: Sortéieren -->
+<section class="wrap hidden" id="g5">
+  <h1>Wat gehéiert wou hin?</h1>
+  <div class="sortLayout">
+    <div class="dropZone" id="bagDrop">
+      <div class="dropTitle">An de Schoulsak</div>
+      <div class="dropInner" id="bagInner"></div>
+    </div>
+    <div class="dropZone" id="caseDrop">
+      <div class="dropTitle">An d’Schachtel</div>
+      <div class="dropInner" id="caseInner"></div>
+    </div>
+    <div class="dropZone" id="roomDrop">
+      <div class="dropTitle">An de Klassesall</div>
+      <div class="dropInner" id="roomInner"></div>
+    </div>
+  </div>
+  <p>Wiel eng Schoulsaach an duerno de richtege Platz.</p>
+  <div class="sortItemsRow" id="sortItems"></div>
 </section>
 
 <audio id="speaker" preload="auto"></audio>
@@ -188,7 +260,7 @@ function shuffle(a){
   return a;
 }
 
-const pages = ["g1","g2","g3","g4"];
+const pages = ["g1","g2","g3","g4","g5"];
 let pageIdx = 0;
 const flowLabel = document.getElementById('flowLabel');
 const prevBtn = document.getElementById('prev');
@@ -381,26 +453,12 @@ nounSq.addEventListener('click', ()=>{
   setTimeout(showNextNoun, 900);
 });
 
-/* ---------- INIT ---------- */
-function init(){
-  // Spill 1
-  layoutG1();
-  bag1 = shuffle([...ITEMS]);
-  nextG1();
+/* ---------- SPILL 5: Sorting ---------- */
+const sortItems = document.getElementById('sortItems');
+const bagInner = document.getElementById('bagInner');
+const caseInner = document.getElementById('caseInner');
+const roomInner = document.getElementById('roomInner');
 
-  // Spill 2
-  buildMemory();
+const CATEGORY_FOR = {
+  blaist
 
-  // Spill 3
-  reset3();
-
-  // Spill 4
-  refill4();
-  showNextNoun();
-
-  showPage(0);
-}
-init();
-</script>
-</body>
-</html>
