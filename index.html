@@ -19,7 +19,12 @@
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; outline:none;}
-  html,body{height:100%; margin:0; background:linear-gradient(135deg,var(--pink-mid),var(--pink-light)); color:var(--ink); font-family:'Schoulschrëft', Arial, sans-serif;}
+  html,body{
+    height:100%; margin:0;
+    background:linear-gradient(135deg,var(--pink-mid),var(--pink-light));
+    color:var(--ink);
+    font-family:'Schoulschrëft', Arial, sans-serif;
+  }
 
   /* Top bar with arrows */
   .top{
@@ -32,13 +37,20 @@
     border:var(--border) solid var(--ink); background:var(--white); color:var(--ink);
     padding:.25rem .7rem; border-radius:14px; cursor:pointer; font-size:1.4rem; line-height:1;
     min-width:2.4rem; display:grid; place-items:center;
+    font-family:'Schoulschrëft', Arial, sans-serif;
   }
   .iconBtn:active{ transform:scale(.98); }
   .flow{opacity:.9; font-size:1rem; padding:0 .4rem; min-width:8ch; text-align:center;}
   .hidden{display:none !important;}
 
-  .wrap{min-height:100%; display:flex; flex-direction:column; align-items:center; gap:2.5vmin; padding:2.5vmin 3vmin 4vmin;}
-  h1{margin:.2rem 0 0; text-align:center; font-size:clamp(2rem,6vmin,4.2rem); color:var(--ink);}
+  .wrap{
+    min-height:100%; display:flex; flex-direction:column; align-items:center;
+    gap:2.5vmin; padding:2.5vmin 3vmin 4vmin;
+  }
+  h1{
+    margin:.2rem 0 0; text-align:center;
+    font-size:clamp(2rem,6vmin,4.2rem); color:var(--ink);
+  }
 
   /* Generic grids / tokens */
   .grid{
@@ -58,11 +70,13 @@
   .btn{
     border:var(--border) solid var(--ink); background:var(--white); color:var(--ink);
     padding:.45rem .85rem; border-radius:14px; cursor:pointer; font-size:1.05rem;
+    font-family:'Schoulschrëft', Arial, sans-serif;
   }
   .btn:active{ transform:scale(.98); }
 
   .flash-good{ background:var(--ok) !important; border-color:var(--ok) !important; }
   .flash-bad{ background:var(--bad) !important; border-color:var(--bad) !important; }
+  .selected{ border-color:var(--pink-dark) !important; }
 
   /* Big square */
   .bigSquare{
@@ -85,40 +99,107 @@
   /* Memory */
   .memGrid{
     width:95vw; max-width:1200px;
-    display:grid; gap:1.4vmin;
-    grid-template-columns: repeat(auto-fill, minmax(18vmin, 1fr));
+    display:grid; gap:1.6vmin;
+    grid-template-columns: repeat(auto-fill, minmax(24vmin, 1fr));
   }
-  .card{ aspect-ratio:4/3; perspective:1000px; cursor:pointer; }
+  .card{ aspect-ratio:5/3; perspective:1000px; cursor:pointer; }
   .inner{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .25s ease; }
   .flipped .inner{ transform:rotateY(180deg); }
-  .face{ position:absolute; inset:0; border-radius:18px; border:6px solid var(--pink-mid);
-         backface-visibility:hidden; display:grid; place-items:center; background:#fff;
-         box-shadow:0 8px 20px rgba(0,0,0,.08); }
+  .face{
+    position:absolute; inset:0; border-radius:18px; border:6px solid var(--pink-mid);
+    backface-visibility:hidden; display:grid; place-items:center; background:#fff;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+  }
   .front{
     background:#fff url('https://i.postimg.cc/ZKkYXy7g/cardback-p1-game.png') center/70% no-repeat;
   }
   .back{ transform:rotateY(180deg); }
   .sndWord{
-    font-size:clamp(1.1rem,3.5vmin,1.6rem);
+    font-size:clamp(1.1rem,3.3vmin,1.7rem);
     padding:.2rem .4rem;
     text-align:center;
-    width:90%;
+    width:92%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    line-height:1.2;
   }
 
   /* Game 4 – sentence */
-  .sentence{ display:flex; align-items:center; gap:min(2.2vmin,16px); flex-wrap:wrap; justify-content:center; font-size:clamp(2rem,4.8vw,3.2rem); }
+  .sentence{
+    display:flex; align-items:center; gap:min(2.2vmin,16px);
+    flex-wrap:wrap; justify-content:center;
+    font-size:clamp(2rem,4.8vw,3.2rem);
+  }
   .inlineSq{
     display:inline-grid; place-items:center; width:min(36vmin,420px); aspect-ratio:1/1;
     border:10px solid var(--pink-mid); border-radius:28px; background:#fff; cursor:pointer;
     box-shadow:0 8px 24px rgba(0,0,0,.08); transition:transform .12s ease;
   }
 
-  .sortBtns{
+  /* Sorting game */
+  .sortLayout{
+    width:95vw; max-width:1200px;
+    display:grid; gap:1.5vmin;
+    grid-template-columns:repeat(auto-fit,minmax(26vmin,1fr));
+  }
+  .dropCol{
+    min-height:32vmin;
+    background:#fff;
+    border:10px solid var(--pink-mid);
+    border-radius:26px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:0.8rem;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+  }
+  .dropHeader{
+    font-size:clamp(1.3rem,3.4vmin,1.8rem);
+    margin-bottom:0.4rem;
+    text-align:center;
+  }
+  .dropInner{
+    flex:1;
+    width:100%;
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
+    gap:0.5rem;
+  }
+  .sortPool{
+    margin-top:1.4rem;
+    display:flex;
+    flex-wrap:wrap;
     gap:0.8rem;
-    margin-top:1rem;
+    justify-content:center;
+  }
+  .sortItem{
+    width:70px; height:70px;
+    border-radius:18px;
+    border:5px solid var(--pink-mid);
+    background:#fff;
+    display:grid; place-items:center;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+  }
+  .sortItem img{
+    width:88%; height:88%; object-fit:contain;
+  }
+
+  /* Finish banner */
+  #endBanner{
+    position:fixed; inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.25);
+    z-index:50;
+  }
+  #endBannerInner{
+    background:#fff; padding:20px 28px;
+    border-radius:18px; border:6px solid var(--pink-mid);
+    font-size:clamp(1.4rem,4.2vw,2.2rem);
   }
 </style>
 </head>
@@ -169,16 +250,28 @@
 
 <!-- Spill 5: Sortéierspill -->
 <section class="wrap hidden" id="g5">
-  <h1>Sortéierspill: Wou gehéiert et hin?</h1>
-  <div class="bigSquare" id="sortSquare">
-    <img id="sortImg" alt="">
+  <h1>Wat gehéiert wou?</h1>
+  <div class="sortLayout">
+    <div class="dropCol" data-cat="schoulsak">
+      <div class="dropHeader">an de Schoulsak</div>
+      <div class="dropInner"></div>
+    </div>
+    <div class="dropCol" data-cat="schachtel">
+      <div class="dropHeader">an d’Schachtel</div>
+      <div class="dropInner"></div>
+    </div>
+    <div class="dropCol" data-cat="klassesall">
+      <div class="dropHeader">an de Klassesall</div>
+      <div class="dropInner"></div>
+    </div>
   </div>
-  <div class="sortBtns">
-    <button class="btn sortBtn" data-cat="schoulsak">an de Schoulsak</button>
-    <button class="btn sortBtn" data-cat="schachtel">an d’Schachtel</button>
-    <button class="btn sortBtn" data-cat="klassesall">an de Klassesall</button>
-  </div>
+  <p>Klick oder zitt d’Bild an déi richteg Kolonn.</p>
+  <div id="sortPool" class="sortPool"></div>
 </section>
+
+<div id="endBanner">
+  <div id="endBannerInner">Fantastësch! Du bass fäerdeg 🎉</div>
+</div>
 
 <audio id="speaker" preload="auto"></audio>
 
@@ -187,22 +280,22 @@
 const AUDIO = "https://github.com/albrechtclaire1007/p1schoulsaachen/raw/refs/heads/main";
 
 const ITEMS = [
-  { id:'blaisteft',        word:'e Bläisteft',       img:'https://i.postimg.cc/5YJ7PXCx/blaisteft.png',        audio:`${AUDIO}/Bläisteft.mp3`,        cat:'schachtel' },
-  { id:'blaisteftsfaarwen',word:'Bläistëftsfaarwen', img:'https://i.postimg.cc/rdxZC1K8/blaisteftsfaarwen.png',audio:`${AUDIO}/Bläistëftsfaarwen.mp3`,cat:'schachtel' },
-  { id:'buch',             word:'e Buch',            img:'https://i.postimg.cc/R6msPWHv/buch.png',             audio:`${AUDIO}/Buch.mp3`,             cat:'schoulsak' },
-  { id:'classeur',         word:'e Classeur',        img:'https://i.postimg.cc/5HLKqB6d/classeur.png',         audio:`${AUDIO}/Classeur.mp3`,         cat:'klassesall' },
-  { id:'gummi',            word:'e Gummi',           img:'https://i.postimg.cc/gXpSMxZd/gummi.png',            audio:`${AUDIO}/Gummi.mp3`,            cat:'schachtel' },
-  { id:'heft',             word:'e Heft',            img:'https://i.postimg.cc/NymC765s/heft.png',             audio:`${AUDIO}/Heft.mp3`,             cat:'schoulsak' },
-  { id:'joffer',           word:'eng Joffer',        img:'https://i.postimg.cc/SnwtMTQt/joffer.png',           audio:`${AUDIO}/Joffer.mp3`,           cat:'klassesall' },
-  { id:'lineal',           word:'e Lineal',          img:'https://i.postimg.cc/r0TnhDrT/lineal.png',           audio:`${AUDIO}/Lineal.mp3`,           cat:'schachtel' },
-  { id:'pech',             word:'e Pech',            img:'https://i.postimg.cc/1nSCW8qq/pech.png',             audio:`${AUDIO}/Pech.mp3`,             cat:'schachtel' },
-  { id:'schachtel',        word:'eng Schachtel',     img:'https://i.postimg.cc/rDvYrnyn/schachtel.png',        audio:`${AUDIO}/Schachtel.mp3`,        cat:'schoulsak' },
-  { id:'scheier',          word:'eng Schéier',       img:'https://i.postimg.cc/ZBm7fWdN/scheier.png',          audio:`${AUDIO}/Schéier.mp3`,          cat:'schachtel' },
-  { id:'schoulsak',        word:'e Schoulsak',       img:'https://i.postimg.cc/cKwkMR65/schoulsak.png',        audio:`${AUDIO}/Schoulsak.mp3`,        cat:'schoulsak' },
-  { id:'schwamp',          word:'e Schwamp',         img:'https://i.postimg.cc/9D4nz5hs/schwamp.png',          audio:`${AUDIO}/Schwamp.mp3`,          cat:'klassesall' },
-  { id:'spetzer',          word:'e Spëtzer',         img:'https://i.postimg.cc/BjdwKYZV/spetzer.png',          audio:`${AUDIO}/Spëtzer.mp3`,          cat:'schachtel' },
-  { id:'tafel',            word:'eng Tafel',         img:'https://i.postimg.cc/VJ3HCGsT/tafel.png',            audio:`${AUDIO}/Tafel.mp3`,            cat:'klassesall' },
-  { id:'tuschfaarwen',     word:'Tuschfaarwen',      img:'https://i.postimg.cc/McV3b7vp/tuschfaarwen.png',     audio:`${AUDIO}/Tuschfaarwen.mp3`,     cat:'schachtel' }
+  { id:'blaisteft',        word:'e Bläisteft',       img:'https://i.postimg.cc/5YJ7PXCx/blaisteft.png',        audio:`${AUDIO}/M__M__Bläisteft.mp3`,        cat:'schachtel' },
+  { id:'blaisteftsfaarwen',word:'Bläistëftsfaarwen', img:'https://i.postimg.cc/rdxZC1K8/blaisteftsfaarwen.png',audio:`${AUDIO}/M__M__blaischteftsfaarf.mp3`,cat:'schachtel' },
+  { id:'buch',             word:'e Buch',            img:'https://i.postimg.cc/R6msPWHv/buch.png',             audio:`${AUDIO}/Buch.mp3`,                  cat:'schoulsak' },
+  { id:'classeur',         word:'e Classeur',        img:'https://i.postimg.cc/5HLKqB6d/classeur.png',         audio:`${AUDIO}/Classeur.mp3`,              cat:'klassesall' },
+  { id:'gummi',            word:'e Gummi',           img:'https://i.postimg.cc/gXpSMxZd/gummi.png',            audio:`${AUDIO}/Gummi.mp3`,                 cat:'schachtel' },
+  { id:'heft',             word:'e Heft',            img:'https://i.postimg.cc/NymC765s/heft.png',             audio:`${AUDIO}/Heft.mp3`,                  cat:'schoulsak' },
+  { id:'joffer',           word:'eng Joffer',        img:'https://i.postimg.cc/SnwtMTQt/joffer.png',           audio:`${AUDIO}/Joffer.mp3`,                cat:'klassesall' },
+  { id:'lineal',           word:'e Lineal',          img:'https://i.postimg.cc/r0TnhDrT/lineal.png',           audio:`${AUDIO}/Lineal.mp3`,               cat:'schachtel' },
+  { id:'pech',             word:'e Pech',            img:'https://i.postimg.cc/1nSCW8qq/pech.png',             audio:`${AUDIO}/Pech.mp3`,                  cat:'schachtel' },
+  { id:'schachtel',        word:'eng Schachtel',     img:'https://i.postimg.cc/rDvYrnyn/schachtel.png',        audio:`${AUDIO}/Schachtel.mp3`,             cat:'schoulsak' },
+  { id:'scheier',          word:'eng Schéier',       img:'https://i.postimg.cc/ZBm7fWdN/scheier.png',          audio:`${AUDIO}/M__SCHEIER.wav`,            cat:'schachtel' },
+  { id:'schoulsak',        word:'e Schoulsak',       img:'https://i.postimg.cc/cKwkMR65/schoulsak.png',        audio:`${AUDIO}/Schoulsak.mp3`,             cat:'schoulsak' },
+  { id:'schwamp',          word:'e Schwamp',         img:'https://i.postimg.cc/9D4nz5hs/schwamp.png',          audio:`${AUDIO}/Schwamp.mp3`,               cat:'klassesall' },
+  { id:'spetzer',          word:'e Spëtzer',         img:'https://i.postimg.cc/BjdwKYZV/spetzer.png',          audio:`${AUDIO}/Spëtzer.mp3`,               cat:'schachtel' },
+  { id:'tafel',            word:'eng Tafel',         img:'https://i.postimg.cc/VJ3HCGsT/tafel.png',            audio:`${AUDIO}/Tafel.mp3`,                 cat:'klassesall' },
+  { id:'tuschfaarwen',     word:'Tuschfaarwen',      img:'https://i.postimg.cc/McV3b7vp/tuschfaarwen.png',     audio:`${AUDIO}/Tuschfaarf.mp3`,            cat:'schachtel' }
 ];
 
 /* ---------- UTIL ---------- */
@@ -234,7 +327,11 @@ function showPage(i){
 prevBtn.onclick = ()=> showPage(pageIdx-1);
 nextBtn.onclick = ()=> showPage(pageIdx+1);
 
-function autoAdvance(delay=900){ setTimeout(()=> showPage(pageIdx+1), delay); }
+function autoAdvance(delay=900){
+  setTimeout(()=>{
+    if(pageIdx < pages.length-1) showPage(pageIdx+1);
+  }, delay);
+}
 
 const speaker = document.getElementById('speaker');
 async function playSound(src){
@@ -249,6 +346,13 @@ function flash(el, ok){
   void el.offsetWidth;
   el.classList.add(ok ? 'flash-good' : 'flash-bad');
   setTimeout(()=> el.classList.remove('flash-good','flash-bad'), 260);
+}
+
+/* ---------- FINISH BANNER ---------- */
+const endBanner = document.getElementById('endBanner');
+function showEnd(){
+  endBanner.style.display = 'flex';
+  setTimeout(()=>{ endBanner.style.display = 'none'; }, 1800);
 }
 
 /* ---------- SPILL 1: Listen & click correct image ---------- */
@@ -289,7 +393,7 @@ const memGrid = document.getElementById('memGrid');
 const memReset = document.getElementById('memReset');
 let lockMem = false; let firstPick = null; let solved = 0;
 
-// 8 pairs (16 cards)
+// choose 8 items for memory
 const MEM_IDS = ['blaisteft','gummi','schwamp','schoulsak','schachtel','spetzer','tuschfaarwen','tafel'];
 const MEM_ITEMS = ITEMS.filter(it=> MEM_IDS.includes(it.id));
 
@@ -391,7 +495,8 @@ let currentNoun = null;
 function refill4(){ bag4 = shuffle([...ITEMS]); }
 function showNextNoun(){
   if(bag4.length===0){
-    refill4();
+    autoAdvance();
+    return;
   }
   currentNoun = bag4.pop();
   nounImg.src = currentNoun.img;
@@ -407,32 +512,103 @@ nounSq.addEventListener('click', ()=>{
   setTimeout(showNextNoun, 900);
 });
 
-/* ---------- SPILL 5: Sortéierspill ---------- */
-const sortImg = document.getElementById('sortImg');
-const sortButtons = document.querySelectorAll('.sortBtn');
-let bag5 = [];
-let currentSortItem = null;
+/* ---------- SPILL 5: Sortéierspill (drag & drop or click) ---------- */
+const sortPool = document.getElementById('sortPool');
+const dropCols = document.querySelectorAll('.dropCol');
+let sortedCount = 0;
+let selectedItem = null;  // for click
+let draggedItem = null;   // for drag
 
-function refill5(){ bag5 = shuffle([...ITEMS]); }
-function nextSort(){
-  if(bag5.length===0){
-    autoAdvance();
-    return;
-  }
-  currentSortItem = bag5.pop();
-  sortImg.src = currentSortItem.img;
-  sortImg.alt = currentSortItem.word;
-  sortImg.classList.remove('fade'); void sortImg.offsetWidth; sortImg.classList.add('fade');
+function buildSortGame(){
+  sortPool.innerHTML = "";
+  dropCols.forEach(col=> col.querySelector('.dropInner').innerHTML = '');
+  sortedCount = 0;
+  selectedItem = null;
+  draggedItem = null;
+
+  const toUse = shuffle([...ITEMS]);
+  toUse.forEach(it=>{
+    const btn = document.createElement('button');
+    btn.className = 'sortItem';
+    btn.draggable = true;
+    btn.dataset.id = it.id;
+    const img = document.createElement('img');
+    img.src = it.img; img.alt = it.word;
+    btn.appendChild(img);
+
+    // click select
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      if(btn.classList.contains('placed')) return;
+      if(selectedItem === btn){
+        btn.classList.remove('selected');
+        selectedItem = null;
+      }else{
+        if(selectedItem) selectedItem.classList.remove('selected');
+        selectedItem = btn;
+        btn.classList.add('selected');
+      }
+    });
+
+    // drag handlers
+    btn.addEventListener('dragstart', ()=>{
+      if(btn.classList.contains('placed')) return;
+      draggedItem = btn;
+      if(selectedItem && selectedItem !== btn) selectedItem.classList.remove('selected');
+      selectedItem = btn;
+      btn.classList.add('selected');
+    });
+    btn.addEventListener('dragend', ()=>{
+      draggedItem = null;
+    });
+
+    sortPool.appendChild(btn);
+  });
 }
-sortButtons.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    if(!currentSortItem) return;
-    const chosen = btn.dataset.cat;
-    const ok = (currentSortItem.cat === chosen);
-    flash(btn, ok);
-    if(ok) setTimeout(nextSort, 350);
+
+dropCols.forEach(col=>{
+  const cat = col.dataset.cat;
+  const inner = col.querySelector('.dropInner');
+
+  // drag over / drop
+  col.addEventListener('dragover', (e)=>{
+    if(!draggedItem) return;
+    e.preventDefault();
+  });
+  col.addEventListener('drop', (e)=>{
+    e.preventDefault();
+    if(!draggedItem) return;
+    handlePlace(draggedItem, cat, inner, col);
+  });
+
+  // click target
+  col.addEventListener('click', ()=>{
+    if(!selectedItem || selectedItem.classList.contains('placed')) return;
+    handlePlace(selectedItem, cat, inner, col);
   });
 });
+
+function handlePlace(btn, cat, inner, col){
+  const id = btn.dataset.id;
+  const it = ITEMS.find(x=> x.id === id);
+  if(!it) return;
+  const ok = (it.cat === cat);
+  flash(col, ok);
+  if(ok){
+    btn.classList.add('placed');
+    btn.classList.remove('selected');
+    btn.draggable = false;
+    btn.style.pointerEvents = 'none';
+    inner.appendChild(btn);
+    sortedCount += 1;
+    selectedItem = null;
+    if(sortedCount === ITEMS.length){
+      showEnd();
+    }
+  }else{
+    flash(btn, false);
+  }
+}
 
 /* ---------- INIT ---------- */
 function init(){
@@ -449,11 +625,9 @@ function init(){
 
   // Spill 4
   refill4();
-  showNextNoun();
 
   // Spill 5
-  refill5();
-  nextSort();
+  buildSortGame();
 
   showPage(0);
 }
@@ -461,5 +635,4 @@ init();
 </script>
 </body>
 </html>
-
 
